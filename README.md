@@ -1,6 +1,3 @@
-
-> 官网地址：[http://laomengit.com/plugin/upgrade.html](http://laomengit.com/plugin/upgrade.html)
-
 # 添加依赖
 
 1、在`pubspec.yaml`中加入：
@@ -339,4 +336,20 @@ IOS升级流程如下：
 3. 如果下载apk升级，则开始下载apk，下载完成后跳转到apk安装引导界面。
 4. 如果跳转到应用市场升级，判断是否指定了应用市场，比如只在华为应用市场上架了，那么此时需要指定跳转到华为应用市场，即使你在很多应用市场都上架了，也应该根据用户手机安装的应用市场指定一个应用市场，让用户选择应用市场不是一个好的体验，而且用户也不知道应该去哪个市场更新，如果用户选择了一个你没有上架的应用市场，那就更尴尬了。
 5. 指定应用市场后直接跳转到指定的应用市场的更新界面。
+
+
+
+
+## 修复报错
+
+```
+flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/kotlin/com/flutter/flutter_app_upgrade/FlutterAppUpgradePlugin.kt: (127, 20): None of the following functions can be called with the arguments supplied: 
+@NonNull public open fun setClassName(@NonNull p0: Context, @NonNull p1: String): Intent defined in android.content.Intent
+@NonNull public open fun setClassName(@NonNull p0: String, @NonNull p1: String): Intent defined in android.content.Intent
+                                                                        
+FAILURE: Build failed with an exception.                   
+```
+
+将`flutter_app_upgrade/android/src/main/kotlin/com/flutter/flutter_app_upgrade/FlutterAppUpgradePlugin.kt: (127, 20)`代码`goToMarket.setClassName(marketPackageName, marketClassName)`改为`goToMarket.setClassName(marketPackageName!!, marketClassName!!)`可解决此报错
+
 
